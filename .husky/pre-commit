@@ -1,0 +1,16 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Running pre-commit checks..."
+
+# Check frontend
+cd frontend
+npm run lint
+npm run type-check
+
+# Check backend
+cd ../backend
+if [ -f "venv/bin/activate" ]; then
+    source venv/bin/activate
+    python -m pylint app.py
+fi
