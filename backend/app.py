@@ -92,6 +92,11 @@ if not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     scheduler.add_job(func=cleanup_expired_messages, trigger="interval", hours=1)
     scheduler.start()
 
+# Root route for health check
+@app.route('/')
+def root():
+    return jsonify({"status": "healthy"}), 200
+
 # Health check endpoint
 @app.route('/api/health')
 def health_check():
@@ -177,5 +182,5 @@ def get_whys():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.getenv('PORT', 5002))
+    app.run(host='0.0.0.0', port=port, debug=os.getenv('FLASK_ENV') != 'production')
