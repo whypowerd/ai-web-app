@@ -13,11 +13,8 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configure OpenAI with project API key
-openai_api_key = os.getenv('OPENAI_API_KEY')
-openai_organization = os.getenv('OPENAI_ORGANIZATION')
 client = OpenAI(
-    api_key=openai_api_key,
-    organization=openai_organization
+    api_key=os.getenv('OPENAI_API_KEY')
 )
 
 # Configure CORS based on environment
