@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 from dotenv import load_dotenv
-from openai import OpenAI
+import openai
 
 # Load environment variables
 load_dotenv()
@@ -13,9 +13,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configure OpenAI with project API key
-client = OpenAI(
-    api_key=os.getenv('OPENAI_API_KEY')
-)
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Configure CORS based on environment
 if os.getenv('FLASK_ENV') == 'production':
@@ -34,6 +32,10 @@ else:
             "allow_headers": ["Content-Type"]
         }
     })
+
+@app.route('/')
+def home():
+    return 'API is running'
 
 # Database configuration
 if os.getenv('DATABASE_URL'):
@@ -90,7 +92,7 @@ if not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     scheduler.start()
 
 # Root route for health check
-@app.route('/')
+@app.route('/health')
 def root():
     return jsonify({"status": "healthy"}), 200
 
@@ -109,18 +111,15 @@ def chat():
             return jsonify({"error": "No message provided"}), 400
 
         # Generate response using OpenAI
-        completion = client.chat.completions.create(
+        completion = openai.Completion.create(
             model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are a professional life coach and career advisor. Format your responses with clear sections using markdown headers (e.g., # Section Title)."},
-                {"role": "user", "content": message}
-            ],
+            prompt=message,
             temperature=0.7,
             max_tokens=2000
         )
 
         # Extract the response
-        response = completion.choices[0].message.content
+        response = completion.choices[0].text
 
         # Extract short-term steps and long-term goals
         import re
