@@ -181,20 +181,22 @@ const WhyOrb: React.FC<WhyOrbProps> = ({ message, position, color, index }) => {
         )}
       </AnimatePresence>
 
-      <style jsx>{`
-        @keyframes pulse {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-          50% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
-        }
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.2; }
-          50% { opacity: 0.4; }
-        }
-        @keyframes ray0 { 0%, 100% { transform: rotate(0deg) scaleX(1); } 50% { transform: rotate(5deg) scaleX(1.2); } }
-        @keyframes ray1 { 0%, 100% { transform: rotate(45deg) scaleX(1); } 50% { transform: rotate(40deg) scaleX(0.8); } }
-        @keyframes ray2 { 0%, 100% { transform: rotate(90deg) scaleX(1); } 50% { transform: rotate(95deg) scaleX(1.1); } }
-        @keyframes ray3 { 0%, 100% { transform: rotate(135deg) scaleX(1); } 50% { transform: rotate(130deg) scaleX(0.9); } }
-      `}</style>
+      <style>
+        {`
+          @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
+          }
+          @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+          }
+          @keyframes ray0 { 0%, 100% { transform: rotate(0deg) scaleX(1); } 50% { transform: rotate(5deg) scaleX(1.2); } }
+          @keyframes ray1 { 0%, 100% { transform: rotate(45deg) scaleX(1); } 50% { transform: rotate(40deg) scaleX(0.8); } }
+          @keyframes ray2 { 0%, 100% { transform: rotate(90deg) scaleX(1); } 50% { transform: rotate(95deg) scaleX(1.1); } }
+          @keyframes ray3 { 0%, 100% { transform: rotate(135deg) scaleX(1); } 50% { transform: rotate(130deg) scaleX(0.9); } }
+        `}
+      </style>
     </motion.div>
   );
 };
