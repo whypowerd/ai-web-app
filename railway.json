@@ -1,0 +1,20 @@
+{
+  "services": {
+    "frontend": {
+      "path": "frontend",
+      "buildCommand": "npm install && npm run build",
+      "startCommand": "npm run preview",
+      "healthcheckPath": "/",
+      "healthcheckTimeout": 100,
+      "envVars": {
+        "VITE_API_URL": "${RAILWAY_STATIC_URL}"
+      }
+    },
+    "backend": {
+      "path": "backend",
+      "startCommand": "gunicorn app:app",
+      "healthcheckPath": "/",
+      "healthcheckTimeout": 100
+    }
+  }
+}
