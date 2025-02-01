@@ -22,17 +22,21 @@ client = OpenAI(
 
 # Configure CORS based on environment
 if os.getenv('FLASK_ENV') == 'production':
-    # In production, only allow requests from your domain
     CORS(app, resources={
-        r"/api/*": {
-            "origins": [os.getenv('ALLOWED_ORIGIN', '*')],
-            "methods": ["GET", "POST"],
+        r"/*": {
+            "origins": ["https://whypowered.com", "https://www.whypowered.com"],
+            "methods": ["GET", "POST", "OPTIONS"],
             "allow_headers": ["Content-Type"]
         }
     })
 else:
-    # In development, allow all origins
-    CORS(app)
+    CORS(app, resources={
+        r"/*": {
+            "origins": "*",
+            "methods": ["GET", "POST", "OPTIONS"],
+            "allow_headers": ["Content-Type"]
+        }
+    })
 
 # Database configuration
 if os.getenv('DATABASE_URL'):
