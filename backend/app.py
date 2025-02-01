@@ -92,6 +92,11 @@ if not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
     scheduler.add_job(func=cleanup_expired_messages, trigger="interval", hours=1)
     scheduler.start()
 
+# Health check endpoint
+@app.route('/api/health')
+def health_check():
+    return jsonify({"status": "healthy"}), 200
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
@@ -141,11 +146,6 @@ def chat():
     except Exception as e:
         print(f"Error in chat endpoint: {str(e)}")
         return jsonify({"error": "Failed to generate response"}), 500
-
-@app.route('/api/health', methods=['GET'])
-def health_check():
-    """Health check endpoint for monitoring"""
-    return jsonify({"status": "healthy", "timestamp": datetime.utcnow().isoformat()})
 
 @app.route('/api/why', methods=['POST'])
 def create_why():
