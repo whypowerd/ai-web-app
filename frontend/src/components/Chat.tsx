@@ -43,10 +43,16 @@ export default function Chat() {
     setIsLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '';
+      let apiUrl = import.meta.env.VITE_API_URL || '';
       
       if (!apiUrl) {
         throw new Error('API URL is not configured');
+      }
+
+      // Replace localhost with the actual domain
+      if (apiUrl.includes('localhost') || apiUrl.includes('127.0.0.1')) {
+        console.error('API URL is still set to localhost! Please update VITE_API_URL in Railway to your backend URL');
+        throw new Error('Backend URL is not configured correctly. Please contact support.');
       }
 
       // Always use HTTPS
