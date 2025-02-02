@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from datetime import datetime, timedelta
@@ -21,7 +21,9 @@ if os.getenv('FLASK_ENV') == 'production':
         r"/*": {
             "origins": "*",
             "methods": ["GET", "POST", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"]
+            "allow_headers": ["Content-Type", "Authorization", "Accept"],
+            "supports_credentials": False,
+            "max_age": 600  # Cache preflight requests for 10 minutes
         }
     })
 else:
@@ -29,9 +31,23 @@ else:
         r"/*": {
             "origins": "*",
             "methods": ["GET", "POST", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"]
+            "allow_headers": ["Content-Type", "Authorization", "Accept"],
+            "supports_credentials": False
         }
     })
+
+@app.before_request
+def before_request():
+    # Force HTTPS in production
+    if os.getenv('FLASK_ENV') == 'production':
+        if not request.is_secure:
+            url = request.url.replace('http://', 'https://', 1)
+            return redirect(url, code=301)
+
+    # Add CORS headers for OPTIONS requests
+    if request.method == 'OPTIONS':
+        response = app.make_default_options_response()
+        return response
 
 @app.route('/')
 def home():

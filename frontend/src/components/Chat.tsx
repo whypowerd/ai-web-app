@@ -50,12 +50,22 @@ export default function Chat() {
         throw new Error('API URL is not configured');
       }
 
-      const response = await axios.post(`${apiUrl}/api/chat`, {
+      // Ensure HTTPS for production
+      const url = apiUrl.startsWith('http://') && window.location.protocol === 'https:' 
+        ? apiUrl.replace('http://', 'https://') 
+        : apiUrl;
+
+      console.log('Making request to:', `${url}/api/chat`);
+      
+      const response = await axios.post(`${url}/api/chat`, {
         message: input,
       }, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        timeout: 60000, // 60 second timeout
+        withCredentials: false
       });
 
       console.log('API Response:', response.data); // For debugging
