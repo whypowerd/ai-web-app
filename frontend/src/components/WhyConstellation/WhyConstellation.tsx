@@ -13,7 +13,7 @@ interface Why {
 }
 
 // API URL will be different in production vs development
-const API_BASE_URL = 'http://localhost:5002';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5002';
 
 const COLORS = [
   '#FFFFFF', // White/blue-white star (like Sirius)
@@ -33,16 +33,23 @@ const WhyConstellation: React.FC = () => {
   // Function to fetch all whys
   const fetchWhys = useCallback(async () => {
     try {
+      console.log('Fetching whys from:', API_BASE_URL);
       const response = await fetch(`${API_BASE_URL}/api/whys`);
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
       }
       const data = await response.json();
+      console.log('Fetched whys:', data);
       setWhys(data);
       setError(null);
-    } catch (error) {
-      console.error('Error fetching whys:', error);
-      setError('Failed to load messages. Please try again later.');
+    } catch (error: any) {
+      console.error('Error fetching whys:', {
+        message: error.message,
+        url: API_BASE_URL,
+        error
+      });
+      setError(`Failed to load messages: ${error.message}`);
     }
   }, []);
 
@@ -62,6 +69,7 @@ const WhyConstellation: React.FC = () => {
     setError(null);
     
     try {
+      console.log('Submitting why to:', API_BASE_URL);
       // Generate random position with some padding from edges
       const position = {
         x: Math.random() * 80 + 10, // 10% to 90% of width
@@ -87,16 +95,22 @@ const WhyConstellation: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
       }
 
       const newWhyData = await response.json();
+      console.log('Created new why:', newWhyData);
       setWhys(prev => [...prev, newWhyData]);
       setNewWhy('');
       setError(null);
-    } catch (error) {
-      console.error('Error submitting why:', error);
-      setError('Failed to share your message. Please try again.');
+    } catch (error: any) {
+      console.error('Error submitting why:', {
+        message: error.message,
+        url: API_BASE_URL,
+        error
+      });
+      setError(`Failed to share your message: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
