@@ -120,7 +120,13 @@ def health_check():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
-        print("Received chat request")
+        print("=== Chat Request ===")
+        print("Headers:", {k: v for k, v in request.headers.items()})
+        print("User Agent:", request.headers.get('User-Agent'))
+        print("Protocol:", request.scheme)
+        print("Is HTTPS:", request.is_secure)
+        print("=================")
+
         data = request.json
         print("Request data:", data)
         

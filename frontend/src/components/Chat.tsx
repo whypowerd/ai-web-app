@@ -44,7 +44,14 @@ export default function Chat() {
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL || '';
-      console.log('Using API URL:', apiUrl); // For debugging
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      console.log('Device Info:', {
+        userAgent: navigator.userAgent,
+        isMobile,
+        protocol: window.location.protocol,
+        apiUrl
+      });
 
       if (!apiUrl) {
         throw new Error('API URL is not configured');
@@ -62,7 +69,8 @@ export default function Chat() {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'User-Agent': navigator.userAgent
         },
         timeout: 60000, // 60 second timeout
         withCredentials: false
