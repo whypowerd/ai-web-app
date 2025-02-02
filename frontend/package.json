@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start": "serve dist -p $PORT"
+    "start": "serve -s dist -p $PORT"
   },
   "dependencies": {
     "@headlessui/react": "1.7.17",
