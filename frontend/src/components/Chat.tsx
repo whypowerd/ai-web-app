@@ -44,23 +44,13 @@ export default function Chat() {
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL || '';
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
-      console.log('Device Info:', {
-        userAgent: navigator.userAgent,
-        isMobile,
-        protocol: window.location.protocol,
-        apiUrl
-      });
-
       if (!apiUrl) {
         throw new Error('API URL is not configured');
       }
 
-      // Ensure HTTPS for production
-      const url = apiUrl.startsWith('http://') && window.location.protocol === 'https:' 
-        ? apiUrl.replace('http://', 'https://') 
-        : apiUrl;
+      // Always use HTTPS
+      const url = apiUrl.replace('http://', 'https://');
 
       console.log('Making request to:', `${url}/api/chat`);
       

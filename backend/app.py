@@ -22,8 +22,7 @@ if os.getenv('FLASK_ENV') == 'production':
             "origins": "*",
             "methods": ["GET", "POST", "OPTIONS"],
             "allow_headers": ["Content-Type", "Authorization", "Accept"],
-            "supports_credentials": False,
-            "max_age": 600  # Cache preflight requests for 10 minutes
+            "supports_credentials": False
         }
     })
 else:
@@ -38,12 +37,6 @@ else:
 
 @app.before_request
 def before_request():
-    # Force HTTPS in production
-    if os.getenv('FLASK_ENV') == 'production':
-        if not request.is_secure:
-            url = request.url.replace('http://', 'https://', 1)
-            return redirect(url, code=301)
-
     # Add CORS headers for OPTIONS requests
     if request.method == 'OPTIONS':
         response = app.make_default_options_response()
