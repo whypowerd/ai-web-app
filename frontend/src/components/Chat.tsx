@@ -43,9 +43,18 @@ export default function Chat() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/chat`, {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      console.log('Using API URL:', apiUrl); // For debugging
+
+      const response = await axios.post(`${apiUrl}/api/chat`, {
         message: input,
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
+
+      console.log('API Response:', response.data); // For debugging
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),

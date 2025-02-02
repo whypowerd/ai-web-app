@@ -19,9 +19,9 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 if os.getenv('FLASK_ENV') == 'production':
     CORS(app, resources={
         r"/*": {
-            "origins": ["https://ai-web-app-production-36f6.up.railway.app"],
+            "origins": "*",
             "methods": ["GET", "POST", "OPTIONS"],
-            "allow_headers": ["Content-Type"]
+            "allow_headers": ["Content-Type", "Authorization"]
         }
     })
 else:
@@ -29,7 +29,7 @@ else:
         r"/*": {
             "origins": "*",
             "methods": ["GET", "POST", "OPTIONS"],
-            "allow_headers": ["Content-Type"]
+            "allow_headers": ["Content-Type", "Authorization"]
         }
     })
 
