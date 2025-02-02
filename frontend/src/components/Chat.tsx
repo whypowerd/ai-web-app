@@ -45,28 +45,28 @@ export default function Chat() {
     try {
       let apiUrl = import.meta.env.VITE_API_URL || '';
       
+      console.log('Raw API URL:', apiUrl);
+      
       if (!apiUrl) {
         throw new Error('API URL is not configured');
       }
 
-      // Replace localhost with the actual domain
-      if (apiUrl.includes('localhost') || apiUrl.includes('127.0.0.1')) {
-        console.error('API URL is still set to localhost! Please update VITE_API_URL in Railway to your backend URL');
-        throw new Error('Backend URL is not configured correctly. Please contact support.');
+      // Ensure URL has no trailing slash
+      apiUrl = apiUrl.replace(/\/$/, '');
+
+      // Ensure we're using HTTPS
+      if (!apiUrl.startsWith('https://')) {
+        apiUrl = 'https://' + apiUrl.replace('http://', '');
       }
 
-      // Always use HTTPS
-      const url = apiUrl.replace('http://', 'https://');
-
-      console.log('Making request to:', `${url}/api/chat`);
+      console.log('Final API URL:', apiUrl);
       
-      const response = await axios.post(`${url}/api/chat`, {
+      const response = await axios.post(`${apiUrl}/api/chat`, {
         message: input,
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'User-Agent': navigator.userAgent
+          'Accept': 'application/json'
         },
         timeout: 60000, // 60 second timeout
         withCredentials: false
