@@ -46,6 +46,10 @@ export default function Chat() {
       const apiUrl = import.meta.env.VITE_API_URL || '';
       console.log('Using API URL:', apiUrl); // For debugging
 
+      if (!apiUrl) {
+        throw new Error('API URL is not configured');
+      }
+
       const response = await axios.post(`${apiUrl}/api/chat`, {
         message: input,
       }, {
@@ -64,11 +68,17 @@ export default function Chat() {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (error: any) {
+      console.error('Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        url: import.meta.env.VITE_API_URL
+      });
+
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: 'Sorry, I encountered an error. Please try again.',
+        content: `Error: ${error.response?.data?.error || error.message || 'Something went wrong'}. Status: ${error.response?.status || 'unknown'}`,
         role: 'assistant',
         timestamp: new Date(),
       };

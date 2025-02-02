@@ -104,12 +104,22 @@ def health_check():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
+        print("Received chat request")
         data = request.json
+        print("Request data:", data)
+        
+        if not data:
+            print("No data received")
+            return jsonify({"error": "No data provided"}), 400
+            
         message = data.get('message', '')
+        print("Message:", message)
         
         if not message:
+            print("No message in data")
             return jsonify({"error": "No message provided"}), 400
 
+        print("Calling OpenAI API...")
         # Generate response using OpenAI
         completion = openai.ChatCompletion.create(
             model="gpt-4",
@@ -120,9 +130,11 @@ def chat():
             temperature=0.7,
             max_tokens=2000
         )
+        print("OpenAI API response received")
 
         # Extract the response
         response = completion.choices[0].message.content
+        print("Extracted response")
 
         # Extract short-term steps and long-term goals
         import re
@@ -133,6 +145,7 @@ def chat():
         if short_term_match:
             steps = short_term_match.group(1).strip().split('\n')
             short_term_steps = [step.replace(r'^\d+\.\s*', '').strip() for step in steps if step.strip()]
+        print("Extracted short-term steps:", short_term_steps)
 
         # Extract 1 year goals
         long_term_match = re.search(r'# 1 Year Achievement.*?Action Steps:\n((?:[\d\.\s]+[^\n]+\n){2})', response, re.IGNORECASE)
@@ -140,6 +153,7 @@ def chat():
         if long_term_match:
             goals = long_term_match.group(1).strip().split('\n')
             long_term_goals = [goal.replace(r'^\d+\.\s*', '').strip() for goal in goals if goal.strip()]
+        print("Extracted long-term goals:", long_term_goals)
 
         return jsonify({
             "response": response,
@@ -149,7 +163,10 @@ def chat():
 
     except Exception as e:
         print(f"Error in chat endpoint: {str(e)}")
-        return jsonify({"error": "Failed to generate response"}), 500
+        print(f"Error type: {type(e)}")
+        import traceback
+        print(f"Traceback: {traceback.format_exc()}")
+        return jsonify({"error": f"Failed to generate response: {str(e)}"}), 500
 
 @app.route('/api/why', methods=['POST'])
 def create_why():
