@@ -19,7 +19,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 if os.getenv('FLASK_ENV') == 'production':
     CORS(app, resources={
         r"/*": {
-            "origins": ["https://whypowered.com", "https://www.whypowered.com"],
+            "origins": ["https://ai-web-app-production-36f6.up.railway.app"],
             "methods": ["GET", "POST", "OPTIONS"],
             "allow_headers": ["Content-Type"]
         }
@@ -111,15 +111,18 @@ def chat():
             return jsonify({"error": "No message provided"}), 400
 
         # Generate response using OpenAI
-        completion = openai.Completion.create(
+        completion = openai.ChatCompletion.create(
             model="gpt-4",
-            prompt=message,
+            messages=[
+                {"role": "system", "content": "You are a helpful AI assistant that helps users plan their goals and actions."},
+                {"role": "user", "content": message}
+            ],
             temperature=0.7,
             max_tokens=2000
         )
 
         # Extract the response
-        response = completion.choices[0].text
+        response = completion.choices[0].message.content
 
         # Extract short-term steps and long-term goals
         import re
