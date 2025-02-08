@@ -15,21 +15,25 @@ app = Flask(__name__)
 # Configure OpenAI with project API key
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-# Configure CORS
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "http://localhost:3000",
-            "http://localhost:5000",
-            "https://ai-web-app-production.up.railway.app",
-            "https://ai-web-app-frontend.up.railway.app",
-            "https://whypowerd.github.io"
-        ],
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization", "Accept"],
-        "supports_credentials": False
-    }
-})
+# Configure CORS based on environment
+if os.getenv('FLASK_ENV') == 'production':
+    CORS(app, resources={
+        r"/*": {
+            "origins": "*",
+            "methods": ["GET", "POST", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization", "Accept"],
+            "supports_credentials": False
+        }
+    })
+else:
+    CORS(app, resources={
+        r"/*": {
+            "origins": "*",
+            "methods": ["GET", "POST", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization", "Accept"],
+            "supports_credentials": False
+        }
+    })
 
 @app.before_request
 def before_request():
