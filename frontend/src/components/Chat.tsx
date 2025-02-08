@@ -54,12 +54,7 @@ export default function Chat() {
       // Ensure URL has no trailing slash
       apiUrl = apiUrl.replace(/\/$/, '');
 
-      // Ensure we're using HTTPS
-      if (!apiUrl.startsWith('https://')) {
-        apiUrl = 'https://' + apiUrl.replace('http://', '');
-      }
-
-      console.log('Final API URL:', apiUrl);
+      console.log('Using API URL:', apiUrl);
       
       const response = await axios.post(`${apiUrl}/api/chat`, {
         message: input,
