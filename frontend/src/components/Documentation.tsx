@@ -14,7 +14,7 @@ const Documentation: React.FC = () => {
               Why is more than just a crypto project - it's a movement built on the foundation of purpose and power.
             </p>
             <p className="text-lg text-gray-300 text-center leading-relaxed">
-              Why is a project on brand to the philosophy of a man or woman's "why power". Why provides value in regards to all things from project building, modern technological tools, art and good vibes for everyone. Why embraces a culture of dreaming big, never settling for less, and ultimately living your best life.
+              Why is a project on brand to the philosophy of a man or woman's "why power". Why provides value in regards to all things from development, modern technological tools, art and good vibes for everyone. Why embraces a culture of dreaming big, never settling for less, and ultimately living your best life.
             </p>
           </div>
         </section>
