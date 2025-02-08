@@ -67,8 +67,16 @@ Expected Outcome: [Long-term vision and expectations]
 [Write a brief success story from the future perspective]`;
 
   try {
-    console.log('Sending request to /api/chat with message:', message);
-    const response = await fetch('http://localhost:5002/api/chat', {
+    const apiUrl = import.meta.env.VITE_API_URL || '';
+    if (!apiUrl) {
+      throw new Error('API URL is not configured');
+    }
+    
+    // Remove trailing slash if present
+    const baseUrl = apiUrl.replace(/\/$/, '');
+    
+    console.log('Sending request to API:', `${baseUrl}/api/chat`);
+    const response = await fetch(`${baseUrl}/api/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
