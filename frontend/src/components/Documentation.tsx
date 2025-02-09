@@ -29,7 +29,7 @@ const Documentation: React.FC = () => {
             <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl p-8 border border-amber-500/20 shadow-xl">
               <h3 className="text-2xl font-semibold mb-4 text-center text-amber-300">Our Vision</h3>
               <p className="text-gray-300 text-center leading-relaxed">
-                Our vision is to harbor a community of like-minded individuals and be the source that provides everything we possibly can to stay true to what our brand stands for. Think run clubs mixed with modern day AI tech mixed with cool branding and an amazing community culture all on the Solana blockchain.
+                Our vision is to harbor a community of like-minded individuals and be the source that provides everything we possibly can to stay true to what our brand stands for. Think run clubs mixed with modern day tech, cool branding and a great community culture all on the Solana blockchain.
               </p>
             </div>
           </div>
