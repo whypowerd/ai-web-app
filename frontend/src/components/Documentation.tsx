@@ -66,11 +66,11 @@ const Documentation: React.FC = () => {
               },
               {
                 title: "2. Personal Development Tools",
-                items: ["Goal Setting & Tracking", "AI-Powered Coaching", "Workshops & Events"]
+                items: ["Goal Setting & Tracking", "AI-Powered Assistance", "Workshops & Events"]
               },
               {
                 title: "3. Blockchain Integration",
-                items: ["$WHY Coin Utility", "Solana Blockchain Adoption", "Tokenized Rewards"]
+                items: ["$WHY Coin Utility", "Blockchain Adoption", "Tokenized Rewards"]
               },
               {
                 title: "4. Creator Economy",
@@ -86,11 +86,11 @@ const Documentation: React.FC = () => {
               },
               {
                 title: "7. AI-Powered Growth",
-                items: ["Custom AI Coaching", "AI-Driven Insights", "Smart Reminders"]
+                items: ["Custom AI Assistance", "AI-Driven Insights", "Smart Reminders"]
               },
               {
                 title: "8. Social and Events",
-                items: ["IRL Meetups & Networking", "Virtual Events & Webinars", "Live Coaching Sessions"]
+                items: ["IRL Meetups & Events", "Virtual Events", "Community Togetherness"]
               }
             ].map((useCase, index) => (
               <div key={index} className="bg-gradient-to-br from-gray-900 to-black rounded-xl p-8 border border-amber-500/20 shadow-xl hover:border-amber-500/40 transition-all duration-300">
