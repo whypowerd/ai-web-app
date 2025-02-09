@@ -11,7 +11,7 @@ const Documentation: React.FC = () => {
           </h1>
           <div className="prose prose-invert mx-auto max-w-3xl">
             <p className="text-2xl text-center text-amber-300 mb-8">
-              Why is more than just a crypto project - it's a movement built on the foundation of purpose and power.
+              "Why" Your Puropse Your Power Your Future
             </p>
             <p className="text-lg text-gray-300 text-center leading-relaxed">
               Why is a project on brand to the philosophy of a man or woman's "why power". Why provides value in regards to all things from development, modern technological tools, art and good vibes for everyone. Why embraces a culture of dreaming big, never settling for less, and ultimately living your best life.
